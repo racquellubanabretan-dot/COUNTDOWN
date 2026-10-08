@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#172033">
+<meta name="description" content="Live countdown to the 2026 Regional Science and Technology Week in CAR, Luna, Apayao, November 5–7, 2026.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="2026 RSTW in CAR — Live Countdown">
+<meta property="og:description" content="Luna, Apayao • November 5–7, 2026. Open to see the live countdown.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="2026 RSTW in CAR — Live Countdown">
+<meta name="twitter:description" content="Luna, Apayao • November 5–7, 2026.">
+<meta name="twitter:image" content="og-image.png">
+<title>2026 RSTW in CAR | Live Countdown</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif}
+body{
+  min-height:100vh;
+  color:#172033;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:#172033 url('rstw-background.jpg') center center/cover fixed no-repeat;
+  position:relative;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.22);
+  z-index:0;
+}
+.card{
+  position:relative;
+  z-index:1;
+  width:min(720px,100%);
+  padding:34px 24px 30px;
+  text-align:center;
+  border-radius:28px;
+  background:rgba(255,255,255,.76);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 18px 50px rgba(0,0,0,.28);
+  backdrop-filter:blur(2px);
+}
+.kicker{font-size:13px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#34425a;margin-bottom:10px}
+h1{font-size:clamp(30px,7vw,52px);line-height:1.05;margin:0 0 10px;color:#172033}
+.place{font-size:18px;color:#435169;margin-bottom:28px}
+.timer{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 auto 24px;max-width:540px}
+.box{background:rgba(245,247,250,.84);border-radius:16px;padding:18px 8px;box-shadow:0 3px 12px rgba(0,0,0,.08)}
+.value{font-size:clamp(38px,10vw,68px);font-weight:800;line-height:1;color:#172033}
+.unit{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#657286;margin-top:8px}
+.days{font-size:20px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin:8px 0 22px;color:#172033}
+.date{font-size:15px;color:#435169;margin-bottom:22px}
+button{border:0;border-radius:12px;padding:14px 22px;font-size:15px;font-weight:800;background:#172033;color:#fff;cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,.18)}
+#status{height:20px;margin-top:12px;font-size:13px;color:#435169}
+.note{font-size:12px;color:#5d6879;line-height:1.5;margin-top:14px}
+@media(max-width:420px){
+  body{padding:12px;background-attachment:scroll}
+  .card{padding:27px 15px 24px;border-radius:22px;background:rgba(255,255,255,.72)}
+  .timer{gap:6px}
+  .box{padding:15px 4px}
+}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="kicker">Live Countdown</div>
+  <h1>2026 RSTW in CAR</h1>
+  <div class="place">Luna, Apayao • November 5–7, 2026</div>
+
+  <section class="timer">
+    <div class="box"><div class="value" id="days">--</div><div class="unit">Days</div></div>
+    <div class="box"><div class="value" id="hours">--</div><div class="unit">Hours</div></div>
+    <div class="box"><div class="value" id="minutes">--</div><div class="unit">Minutes</div></div>
+  </section>
+
+  <div class="days" id="headline">Loading countdown...</div>
+  <div class="date">Opening day: November 5, 2026</div>
+  <button onclick="copyLink()">🔗 Copy Countdown Link</button>
+  <div id="status"></div>
+  <div class="note">Pin this page in Messenger or Telegram. The countdown updates automatically.</div>
+</main>
+
+<script>
+const start=new Date(2026,10,5,0,0,0),end=new Date(2026,10,8,0,0,0);
+function pad(n){return String(n).padStart(2,'0')}
+function update(){
+ const now=new Date(),r=start-now;
+ const d=document.getElementById('days'),h=document.getElementById('hours'),m=document.getElementById('minutes'),x=document.getElementById('headline');
+ if(now<start){
+   const t=Math.ceil(r/60000),dd=Math.floor(t/1440),hh=Math.floor((t%1440)/60),mm=t%60;
+   d.textContent=dd;h.textContent=pad(hh);m.textContent=pad(mm);
+   x.textContent=dd===1?'1 DAY TO GO':`${dd} DAYS TO GO`;
+ }else if(now<end){
+   d.textContent='ON';h.textContent='AIR';m.textContent='';
+   x.textContent='🎉 RSTW IS ONGOING';
+ }else{
+   d.textContent='✓';h.textContent='';m.textContent='';
+   x.textContent='2026 RSTW IN CAR HAS ENDED';
+ }
+}
+async function copyLink(){
+ const s=document.getElementById('status');
+ try{await navigator.clipboard.writeText(location.href);s.textContent='Countdown link copied.'}
+ catch(e){s.textContent='Copy the page address from your browser.'}
+ setTimeout(()=>s.textContent='',2500);
+}
+update();setInterval(update,1000);
+</script>
+</body>
+</html>
